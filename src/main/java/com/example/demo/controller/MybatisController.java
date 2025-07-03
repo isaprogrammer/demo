@@ -1,0 +1,22 @@
+package com.example.demo;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@RequestMapping(value = "/mybatis")
+@RestController
+public class MybatisController {
+
+    @Autowired
+    private SysUserMapper userMapper;
+
+    @RequestMapping(value = "/mock", method = RequestMethod.POST)
+    @ResponseBody
+    public void mock() {
+        userMapper.insert(new SysUser());
+    }
+
+}
