@@ -1,7 +1,6 @@
-package com.example.demo;
+package com.example.demo.other;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -23,6 +22,7 @@ import javax.sql.DataSource;
  */
 @Slf4j
 @Configuration
+@MapperScan(value = "com.example.demo.other", annotationClass = Mapper.class, sqlSessionFactoryRef = "sqlSessionFactory")
 public class H2DataSourceConfig {
 
     @Value("${db.first.driverClassName:org.h2.Driver}")
@@ -33,13 +33,15 @@ public class H2DataSourceConfig {
     @Bean
     @Primary
     public DataSource dataSource() {
-        log.info("自定义了动态数据源配置类DataSourceConfig，需排除自动配置数据源DataSourceAutoConfiguration");
-        log.info("启动类添加：@SpringBootApplication(exclude={DataSourceAutoConfiguration.class})");
-        DruidDataSource druidDataSource = DruidDataSourceBuilder.create().build();
+        log.info("使用手动方式配置 DruidDataSource，不依赖 DataSourceProperties");
+        DruidDataSource druidDataSource = new DruidDataSource();
         druidDataSource.setKeepAlive(true);
         druidDataSource.setUrl("jdbc:h2:file:" + "~/" + H2_DB_NAME + ";MODE=MYSQL;DATABASE_TO_UPPER=FALSE;AUTO_RECONNECT=TRUE;AUTO_SERVER=TRUE;");
         druidDataSource.setDriverClassName(driverClassName);
-
+        druidDataSource.setUsername("sa");     // ✅ H2 默认用户名
+        druidDataSource.setPassword("");       // ✅ H2 默认无密码
+        druidDataSource.setInitialSize(1);
+        druidDataSource.setMaxActive(10);
         return druidDataSource;
     }
 

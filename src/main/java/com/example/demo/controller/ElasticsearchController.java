@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.controller;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
 import co.elastic.clients.elasticsearch._types.SortOrder;

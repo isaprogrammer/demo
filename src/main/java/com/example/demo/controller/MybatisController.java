@@ -1,5 +1,7 @@
-package com.example.demo;
+package com.example.demo.controller;
 
+import com.example.demo.other.SysUser;
+import com.example.demo.other.SysUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +18,10 @@ public class MybatisController {
     @RequestMapping(value = "/mock", method = RequestMethod.POST)
     @ResponseBody
     public void mock() {
-        userMapper.insert(new SysUser());
+        SysUser sysUser = new SysUser();
+        sysUser.setId(1L);
+        sysUser.setName("mock");
+        userMapper.insert(sysUser);
     }
 
 }
