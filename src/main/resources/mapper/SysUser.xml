@@ -3,7 +3,7 @@
 
 <mapper namespace='com.example.demo.other.SysUserMapper'>
     <insert id="insert" parameterType="com.example.demo.other.SysUser">
-        INSERT INTO sys_user (id, name)
-        VALUES (#{id}, #{name})
+        INSERT INTO sys_user (name)
+        VALUES (#{name})
     </insert>
 </mapper>

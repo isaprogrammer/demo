@@ -19,7 +19,6 @@ public class MybatisController {
     @ResponseBody
     public void mock() {
         SysUser sysUser = new SysUser();
-        sysUser.setId(1L);
         sysUser.setName("mock");
         userMapper.insert(sysUser);
     }
