@@ -1,0 +1,60 @@
+package com.example.demo.repository;
+
+import com.example.demo.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+/**
+ * 用户数据访问层接口
+ */
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    
+    /**
+     * 根据用户名查找用户
+     */
+    Optional<User> findByUsername(String username);
+    
+    /**
+     * 根据邮箱查找用户
+     */
+    Optional<User> findByEmail(String email);
+    
+    /**
+     * 根据用户状态查找用户列表
+     */
+    List<User> findByStatus(User.UserStatus status);
+    
+    /**
+     * 根据用户名或邮箱查找用户
+     */
+    @Query("SELECT u FROM User u WHERE u.username = :identifier OR u.email = :identifier")
+    Optional<User> findByUsernameOrEmail(@Param("identifier") String identifier);
+    
+    /**
+     * 检查用户名是否存在
+     */
+    boolean existsByUsername(String username);
+    
+    /**
+     * 检查邮箱是否存在
+     */
+    boolean existsByEmail(String email);
+    
+    /**
+     * 根据全名模糊查询用户
+     */
+    @Query("SELECT u FROM User u WHERE u.fullName LIKE %:name%")
+    List<User> findByFullNameContaining(@Param("name") String name);
+    
+    /**
+     * 统计活跃用户数量
+     */
+    @Query("SELECT COUNT(u) FROM User u WHERE u.status = 'ACTIVE'")
+    long countActiveUsers();
+}
