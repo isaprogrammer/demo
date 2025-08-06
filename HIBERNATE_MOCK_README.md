@@ -71,7 +71,7 @@ mvn spring-boot:run
 
 #### 获取所有Mock用户
 ```bash
-curl -X GET http://localhost:8080/api/mock/users
+curl -X GET http://localhost:8080/api/users
 ```
 
 #### 生成新的Mock用户
