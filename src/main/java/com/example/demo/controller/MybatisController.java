@@ -21,6 +21,7 @@ public class MybatisController {
         SysUser sysUser = new SysUser();
         sysUser.setName("mock");
         userMapper.insert(sysUser);
+        userMapper.selectById(1);
     }
 
 }

@@ -6,4 +6,8 @@
         INSERT INTO sys_user (name)
         VALUES (#{name})
     </insert>
+
+    <select id="selectById">
+        select * from sys_user where id = #{id}
+    </select>
 </mapper>
