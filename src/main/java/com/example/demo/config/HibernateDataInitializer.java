@@ -106,7 +106,6 @@ public class HibernateDataInitializer implements CommandLineRunner {
         newProduct.setUpdatedAt(LocalDateTime.now());
         
         entityManager.persist(newProduct);
-        // entityManager.flush(); // 移除 flush 调用，避免事务问题
         System.out.println("成功插入新产品: " + newProduct.getName());
     }
     

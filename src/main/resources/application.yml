@@ -87,10 +87,8 @@ logging:
   level:
     com.example.demo: DEBUG
     org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.springframework.transaction: DEBUG
-    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: DEBUG
-    org.hibernate.engine.jdbc.spi.SqlStatementLogger: DEBUG
+    org.hibernate.orm.jdbc.bind: trace
+
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"

@@ -52,7 +52,7 @@ public class HibernateAdvancedConfig {
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.show_sql", "true");
         properties.setProperty("hibernate.format_sql", "true");
-        
+
         // 二级缓存配置 - 暂时禁用以确保应用启动
         properties.setProperty("hibernate.cache.use_second_level_cache", "false");
         properties.setProperty("hibernate.cache.use_query_cache", "false");
