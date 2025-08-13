@@ -22,19 +22,55 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
       naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
     show-sql: true
     properties:
       hibernate:
+        # SQL格式化和注释
         format_sql: true
         use_sql_comments: true
-        generate_statistics: false
+        
+        # 统计信息
+        generate_statistics: true
+        
+        # 批处理配置
         jdbc:
           batch_size: 20
+          batch_versioned_data: true
         order_inserts: true
         order_updates: true
+        
+        # 二级缓存配置
+        cache:
+          use_second_level_cache: true
+          use_query_cache: true
+          region:
+            factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+        
+        # 连接池配置
+        connection:
+          pool_size: 10
+        
+        # 懒加载配置
+        enable_lazy_load_no_trans: true
+        
+        # 自动刷新模式
+        flushMode: AUTO
+        
+        # 查询优化
+        query:
+          plan_cache_max_size: 2048
+          plan_parameter_metadata_max_size: 128
+        
+        # 多租户支持（演示用）
+        multiTenancy: NONE
+        
+        # 事件监听器
+        event:
+          merge:
+            entity_copy_observer: allow
         
   # 事务配置
   transaction:
@@ -53,6 +89,8 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
     org.springframework.transaction: DEBUG
+    org.hibernate.engine.jdbc.batch.internal.BatchingBatch: DEBUG
+    org.hibernate.engine.jdbc.spi.SqlStatementLogger: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
