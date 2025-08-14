@@ -26,32 +26,33 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // 检查数据库是否已有数据
-        if (userRepository.count() > 0) {
-            log.info("Database already contains data, skipping initialization");
-            return;
+        if (!(userRepository.count() > 0)) {
+            log.info("Initializing database with test data...");
+
+            // 创建初始用户数据
+            List<User> initialUsers = Arrays.asList(
+                    createUser("admin", "admin@example.com", "admin123", "系统管理员", "13800000001", UserStatus.ACTIVE),
+                    createUser("testuser", "test@example.com", "test123", "测试用户", "13800000002", UserStatus.ACTIVE),
+                    createUser("demouser", "demo@example.com", "demo123", "演示用户", "13800000003", UserStatus.INACTIVE),
+                    createUser("john_doe", "john@example.com", "john123", "约翰·多伊", "13800000004", UserStatus.ACTIVE),
+                    createUser("jane_smith", "jane@example.com", "jane123", "简·史密斯", "13800000005", UserStatus.ACTIVE),
+                    createUser("bob_wilson", "bob@example.com", "bob123", "鲍勃·威尔逊", "13800000006", UserStatus.SUSPENDED),
+                    createUser("alice_brown", "alice@example.com", "alice123", "爱丽丝·布朗", "13800000007", UserStatus.ACTIVE),
+                    createUser("charlie_davis", "charlie@example.com", "charlie123", "查理·戴维斯", "13800000008", UserStatus.INACTIVE),
+                    createUser("diana_miller", "diana@example.com", "diana123", "戴安娜·米勒", "13800000009", UserStatus.ACTIVE),
+                    createUser("edward_jones", "edward@example.com", "edward123", "爱德华·琼斯", "13800000010", UserStatus.ACTIVE)
+            );
+
+            // 批量保存到数据库
+            userRepository.saveAll(initialUsers);
+
+            log.info("Successfully initialized database with {} users", initialUsers.size());
         }
 
-        log.info("Initializing database with test data...");
+        test();
+    }
 
-        // 创建初始用户数据
-        List<User> initialUsers = Arrays.asList(
-                createUser("admin", "admin@example.com", "admin123", "系统管理员", "13800000001", UserStatus.ACTIVE),
-                createUser("testuser", "test@example.com", "test123", "测试用户", "13800000002", UserStatus.ACTIVE),
-                createUser("demouser", "demo@example.com", "demo123", "演示用户", "13800000003", UserStatus.INACTIVE),
-                createUser("john_doe", "john@example.com", "john123", "约翰·多伊", "13800000004", UserStatus.ACTIVE),
-                createUser("jane_smith", "jane@example.com", "jane123", "简·史密斯", "13800000005", UserStatus.ACTIVE),
-                createUser("bob_wilson", "bob@example.com", "bob123", "鲍勃·威尔逊", "13800000006", UserStatus.SUSPENDED),
-                createUser("alice_brown", "alice@example.com", "alice123", "爱丽丝·布朗", "13800000007", UserStatus.ACTIVE),
-                createUser("charlie_davis", "charlie@example.com", "charlie123", "查理·戴维斯", "13800000008", UserStatus.INACTIVE),
-                createUser("diana_miller", "diana@example.com", "diana123", "戴安娜·米勒", "13800000009", UserStatus.ACTIVE),
-                createUser("edward_jones", "edward@example.com", "edward123", "爱德华·琼斯", "13800000010", UserStatus.ACTIVE)
-        );
-
-        // 批量保存到数据库
-        userRepository.saveAll(initialUsers);
-
-        log.info("Successfully initialized database with {} users", initialUsers.size());
-
+    private void test() {
         // 输出统计信息
         long totalUsers = userRepository.count();
         long activeUsers = userRepository.countActiveUsers();
